@@ -1,0 +1,39 @@
+
+.modal-content{
+    width: 120px;
+    max-height: 200px;
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 10;
+    position:relative;
+
+
+    p{
+        background-color: rgba(0, 0, 0, 0.795);
+        border-radius: 0.25rem;
+        margin-bottom: 10px;
+        padding: .25rem;
+        text-decoration: none;
+        color: white;
+        font-size: 1.5rem;
+    }
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    // background-color: rgba(0, 0, 0, 0.699);
+    background-color: #ffffff00;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
