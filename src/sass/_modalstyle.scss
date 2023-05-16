@@ -1,0 +1,78 @@
+
+.container-modal{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(58, 53, 53, 0.916);
+}
+
+.modal-style{
+    width: 25%;
+    height: 60%;
+    background-color: #fff;
+    position: relative;
+    border-radius: 0.5rem;
+    box-shadow: rgba(100,100,111, .2) 0px 7px 29px 0px;
+    padding: 20px;
+}
+
+.header-modal{
+    display: flex;
+    align-items: center;
+
+}
+
+.header-modal span{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    width: 50px;
+
+}
+
+.form-modal{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: start;
+    width: 80%;
+    height: 85%;
+}
+
+.input-task{
+    height: 8rem;
+}
+
+.checkbox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:end
+
+    label{
+        width: 20px;
+        background-color: red;
+        align-items: start;
+        justify-content: start;
+        color: red;
+    }
+}
+
+.button-form{
+    width: 5rem;
+    height: 1.75rem;
+    border-radius: 5px;
+    background-color: aqua;
+}
+
+.buttons{
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+}

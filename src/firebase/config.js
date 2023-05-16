@@ -21,7 +21,7 @@ export const FirebaseApp = initializeApp(firebaseConfig);
 export const FirebaseAuth = getAuth (FirebaseApp);
 export const FirebaseDB = getFirestore (FirebaseApp);
 
-const collectionRef = collection(FirebaseDB, "user1/9N87rMRgJdBiNDNKqASb/notes")
+// const collectionRef = collection(FirebaseDB, "/usuario/w4VqzH8PLLKAykAbCoDZ")
 
 // export const getData = onSnapshot(collectionRef, (capture)=>{
 //   const taskList = []

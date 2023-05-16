@@ -1,30 +1,23 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "../sass/style.css"
 import { Modal } from '../components/Modal'
 import { Task } from '../components/Task'
 import { collection, onSnapshot } from 'firebase/firestore'
 import { FirebaseDB } from '../firebase/config'
 import { AddCard } from '../icons/AddCard'
-import { taskReducer } from '../hook/taskReducer'
+import { UserContext } from '../context/UserContext'
 
-const initialValue = {
-  title: "",
-  description: "",
-  status: "new",
-  priority: "off",
-  date:""
-}
 
 export const TaskPage = () => {
 
-  const [list, setList] = useState([])
-  const [viewModal, setViewModal] = useState(false);
+  // const {openModal, setOpenModal} = useContext(UserContext);
 
-  const [task, dispatch] = useReducer(taskReducer, initialValue);
-  
+
+  const [openModal, setOpenModal] = useState(false)
+  const [list, setList] = useState([])
 
   useEffect(() => {
-    onSnapshot(collection(FirebaseDB, "user1/9N87rMRgJdBiNDNKqASb/notes"), (capture)=>{
+    onSnapshot(collection(FirebaseDB, "usuario"), (capture)=>{
       const taskList = []
       capture.docs.forEach((doc) => {
         taskList.push({...doc.data(), id:doc.id})
@@ -46,12 +39,13 @@ export const TaskPage = () => {
     </nav>
 
     <div className='task-page'>
+      
       <div className='container-card'>
         <div className='title-container-card'>
           <h2>TAREAS A REALIZAR</h2>
         </div>
-
-          {
+          <ul className='ul-new-task'>
+            {
               list.map(data =>{
                   if(data.status == "new"){
                     return(
@@ -59,49 +53,55 @@ export const TaskPage = () => {
                     )
                   }
               })
-          }
+            }
+          </ul>
 
-        <div className='add-new-card' onClick={setViewModal}>
-          <AddCard className="menu"/>
-          <p>Agregar nueva tarea</p>
-        </div>
+          <div className='add-new-card' onClick={()=>setOpenModal(true)}>
+            <AddCard className="menu"/>
+            <p>Agregar nueva tarea</p>
+          </div>
+          <Modal statusModal={openModal} changeStatusModal={setOpenModal}/>
 
-          <Modal state = {viewModal} setState = {()=> setViewModal(false)}/>
 
-        </div>   
+      </div>   
 
         <div className='container-card'>
           <div className='title-container-card'>
               <h2>TAREAS EN PROCESO</h2>
           </div>
+          <ul className='ul-other-task'>
+
             {
               list.map(data =>{
-
-                  if(data.status == "in process"){
-                    return(
-                      <Task key = {data.id} info = {...data}/>
+                
+                if(data.status == "in process"){
+                  return(
+                    <Task key = {data.id} info = {...data}/>
                     )
                   }
-              })
-            }
+                })
+              }
+          </ul>
         </div>
-
 
         <div className='container-card'>
           <div className='title-container-card'>
             <h2>TAREAS FINALIZADAS</h2>
           </div>
-          {
-              list.map(data =>{
+          <ul className='ul-other-task'>
+            {
+                list.map(data =>{
 
-                  if(data.status == "done"){
-                    return(
-                      <Task key = {data.id} info = {...data}/>
-                    )
-                  }
-              })
-            }
+                    if(data.status == "done"){
+                      return(
+                        <Task key = {data.id} info = {...data}/>
+                      )
+                    }
+                })
+              }
+          </ul>
         </div>
+
     </div> 
     <footer className='footer-page'>
       <p>Este es el footer</p>

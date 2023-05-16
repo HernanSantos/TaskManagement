@@ -1,56 +1,70 @@
-import React, { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Close } from '../icons/Close'
 import {collection, doc, setDoc} from "firebase/firestore"
 import { FirebaseDB } from '../firebase/config'
+// import { UserContext } from '../context/UserContext'
 
-export const Modal = ({ state, setState, info}) => {
+
+export const Modal = ({statusModal,changeStatusModal}) => {
 
   const initialValue = {
     title: "",
     description: "",
     status: "new",
-    priority: "on",
+    priority: false,
     date:""
   }
-
+  
   const [formInfo, setFormInfo] = useState(initialValue);
+  // const {openModal, setOpenModal} = useContext(UserContext);
 
+
+  const onFormSubmit = async(event) =>{
+    event.preventDefault();
+    const newTask = {
+      title: formInfo.title,
+      description: formInfo.description,
+      status: "new",
+      priority: formInfo.priority,
+      date: formInfo.date
+    }
+    if (newTask.title){
+      const newDoc = doc (collection(FirebaseDB, "usuario"));
+      await setDoc(newDoc,newTask);
+      setFormInfo({...initialValue})
+      changeStatusModal(false)
+    }
+  }
 
   const ChangeValue = (event)=>{
-    const {name, value} = event.target;
-    setFormInfo({...formInfo, [name]:value, status:"new"})
+    const {name, value, checked} = event.target;
+    setFormInfo({...formInfo, [name]:value, priority:checked})
   }
 
-  const addNewNote = async(event) =>{
-    event.preventDefault();
-    const newDoc = doc (collection(FirebaseDB, "/user1/9N87rMRgJdBiNDNKqASb/notes"));
-    await setDoc(newDoc,formInfo);
-    setFormInfo({...initialValue})
-  }
 
   return (
     <>
-      { state &&
+      {
+        statusModal &&
+      
         <div className='container-modal'>
           <div className='modal-style'>
             <div className='header-modal'>
-              {
-                info?.id ? <h1>EDITAR TAREA</h1> : <h1>NUEVA TAREA</h1>
-              }
-              <span onClick={setState}><Close className="menu"/></span>
+              <h1>NUEVA TAREA</h1>
+              <span onClick={()=>changeStatusModal(false)}><Close className="menu"/></span>
             </div>
 
-            <form onSubmit={addNewNote} className='form-modal'>
+            <form onSubmit={onFormSubmit} className='form-modal'>
 
               <h2>Titulo</h2>
-              <input type="text" name='title' onChange={ChangeValue} defaultValue={info?.title} />
+              <input type="text" name='title' onChange={ChangeValue}/>
               <h2>Fecha de vencimiento</h2>
-              <input type="date" name='date' onChange={ChangeValue} defaultValue={info?.date}/>
+              <input type="date" name='date' onChange={ChangeValue} />
               <h2>Descripcion tarea</h2>
-              <textarea name="description" id="" cols="30" rows="20" onChange={ChangeValue} defaultValue={info?.description}></textarea>
+              <textarea name="description" id="" cols="30" rows="20" onChange={ChangeValue}></textarea>
               <div className='checkbox'>
-                <p>Marcar como prioridad</p>
-                <input type="checkbox" name='priority' onChange={ChangeValue} value="true" defaultValue={info?.priority}/>
+                <label htmlFor="priority">Marcar como prioridad</label>
+                <input type="checkbox" name='priority' id='priority' onChange={ChangeValue}/>
               </div>
 
             <div className='buttons'>
@@ -58,7 +72,7 @@ export const Modal = ({ state, setState, info}) => {
             </div>
 
             </form>
-            <button className='button-form' onClick={setState}>Cerrar</button>
+            <button className='button-form' onClick={()=>changeStatusModal(false)}>Cerrar</button>
           </div>
         </div>
       }

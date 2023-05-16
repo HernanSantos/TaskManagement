@@ -1,14 +1,16 @@
 import React from 'react'
 
 
-
-
-export const taskReducer = (state = [], action) => {
-
+export const taskReducer = (initialState, action) => {
     switch(action.type){
         case "Add Task":
-            return[...state, action.payload]
+          return[...initialState, action.payload];
+
+        case "Delete Task":
+          return initialState.filter( task => task.id !== action.payload)
+
+        default:
+          return initialState;
     }
 
-  return state;
 }
