@@ -165,6 +165,37 @@
   font-size: 1.5rem;
   width: 180px;
 }
+.modal-content .change-state-hover {
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  width: 180px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.modal-content .text-hidden {
+  margin-left: 5px;
+}
+.modal-content .state-hidden {
+  display: none;
+  margin-left: 0;
+}
+.modal-content .change-state-hover:hover {
+  background-color: rgba(255, 255, 255, 0);
+  margin-bottom: 0;
+}
+.modal-content .change-state-hover:hover .text-hidden {
+  display: none;
+}
+.modal-content .change-state-hover:hover > .state-hidden {
+  display: inline;
+  margin-left: 5px;
+}
 
 .modal-backdrop {
   position: absolute;
@@ -187,11 +218,13 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(37, 34, 34, 0.041);
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgba(58, 53, 53, 0.916);
+  -webkit-backdrop-filter: blur(1px);
+          backdrop-filter: blur(1px);
 }
 
 .modal-style {
@@ -200,7 +233,6 @@
   background-color: #fff;
   position: relative;
   border-radius: 0.5rem;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   padding: 20px;
 }
 

@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Close } from '../icons/Close'
 import {collection, doc, setDoc} from "firebase/firestore"
 import { FirebaseDB } from '../firebase/config'
-// import { UserContext } from '../context/UserContext'
 
 
-export const Modal = ({statusModal,changeStatusModal}) => {
+export const AddNewTask = ({statusModal,changeStatusModal}) => {
 
   const initialValue = {
+    creation: new Date(),
     title: "",
     description: "",
     status: "new",
@@ -16,12 +16,11 @@ export const Modal = ({statusModal,changeStatusModal}) => {
   }
   
   const [formInfo, setFormInfo] = useState(initialValue);
-  // const {openModal, setOpenModal} = useContext(UserContext);
-
 
   const onFormSubmit = async(event) =>{
     event.preventDefault();
     const newTask = {
+      creation: new Date(),
       title: formInfo.title,
       description: formInfo.description,
       status: "new",

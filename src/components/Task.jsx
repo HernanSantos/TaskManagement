@@ -1,14 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { EditModalOptions } from './EditModalOptions';
 import { Menu } from '../icons/Menu';
-import {ModalEdit} from "../components/ModalEdit"
+import {EditTask} from "./EditTask"
+import { UserContext } from '../context/UserContext';
 
 export const Task = ({info}) => {
 
   const [openModal, setOpenModal] = useState(false)
 
-  const click = ()=>{
-    console.log("me hice click wn")
+  // const [openEditModal, setOpenEditModal] = useState(false)
+  const {openEditModal, setOpenEditModal, infoTask, setInfoTask} = useContext(UserContext);
+
+  const saveInfo = () =>{
+    setInfoTask(info);
+    setOpenEditModal(true)
   }
 
   return (
@@ -33,7 +38,7 @@ export const Task = ({info}) => {
               </div>
               <div className='menu-card-list'>
                 <p className='menu-card' onClick={()=>setOpenModal(true)}><Menu className="menu"/></p> 
-                <EditModalOptions state={openModal} close={()=>setOpenModal(false)} id={info.id}/>
+                <EditModalOptions state={openModal} close={()=>setOpenModal(false)} info={info} />
               </div>
             </div>
         </div>
@@ -41,7 +46,7 @@ export const Task = ({info}) => {
         : 
         <div className='card-list'>
             <div className='card'>
-              <div className='card-input-date' onClick={click}>
+              <div className='card-input-date' onClick={saveInfo}>
                   {
                     info?.date 
                       ?<p className='little-p'>Vencimiento: {info.date} </p>
@@ -53,12 +58,15 @@ export const Task = ({info}) => {
                       ?<p className='little-p'>Prioridad</p>
                       :""
                   }
-                {/* <ModalEdit /> */}
+                {
+                  openEditModal &&
+                  <EditTask value={info} state={openEditModal} setState={()=>setOpenEditModal(false)} />
+                }
 
               </div>
               <div className='menu-card-list'>
                 <p className='menu-card' onClick={()=>setOpenModal(!openModal)}><Menu className="menu"/></p>
-                {/* <EditModalOptions state={openModal} close={()=>setOpenModal(false)} id={info.id}/> */}
+                <EditModalOptions state={openModal} close={()=>setOpenModal(false)} info={info} />
               </div>
             </div>
         </div>

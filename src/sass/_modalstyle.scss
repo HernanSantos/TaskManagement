@@ -5,11 +5,12 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(37, 34, 34, 0.041);
     display: flex;
     align-items: center;
     justify-content: center;
     color: rgba(58, 53, 53, 0.916);
+    backdrop-filter: blur(1px);
 }
 
 .modal-style{
@@ -18,7 +19,6 @@
     background-color: #fff;
     position: relative;
     border-radius: 0.5rem;
-    box-shadow: rgba(100,100,111, .2) 0px 7px 29px 0px;
     padding: 20px;
 }
 

@@ -4,10 +4,11 @@ import { UserContext } from "./UserContext"
 
 export const UserProvider = ({children}) => {
 
-    const [openModal, setOpenModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false)
+  const [infoTask, setInfoTask] = useState([])
 
     return (
-    <UserContext.Provider value={{openModal, setOpenModal}}>
+    <UserContext.Provider value={{openEditModal, setOpenEditModal,infoTask,setInfoTask}}>
         {children}
     </UserContext.Provider>
   )

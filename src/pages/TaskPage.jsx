@@ -1,17 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../sass/style.css"
-import { Modal } from '../components/Modal'
+import { AddNewTask } from '../components/AddNewTask'
 import { Task } from '../components/Task'
 import { collection, onSnapshot } from 'firebase/firestore'
 import { FirebaseDB } from '../firebase/config'
 import { AddCard } from '../icons/AddCard'
-import { UserContext } from '../context/UserContext'
 
 
 export const TaskPage = () => {
-
-  // const {openModal, setOpenModal} = useContext(UserContext);
-
 
   const [openModal, setOpenModal] = useState(false)
   const [list, setList] = useState([])
@@ -22,7 +18,8 @@ export const TaskPage = () => {
       capture.docs.forEach((doc) => {
         taskList.push({...doc.data(), id:doc.id})
       })
-      setList((list) => taskList)
+      const sortList = taskList.slice().sort((a,b) => a.creation - b.creation)
+      setList((list) => sortList)
     })
   }, [])
 
@@ -60,7 +57,7 @@ export const TaskPage = () => {
             <AddCard className="menu"/>
             <p>Agregar nueva tarea</p>
           </div>
-          <Modal statusModal={openModal} changeStatusModal={setOpenModal}/>
+          <AddNewTask statusModal={openModal} changeStatusModal={setOpenModal}/>
 
 
       </div>   
