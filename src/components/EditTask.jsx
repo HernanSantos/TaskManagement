@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Close } from "../icons/Close"
-import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { FirebaseDB } from "../firebase/config";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
@@ -8,42 +8,48 @@ import { UserContext } from "../context/UserContext";
 
 export const EditTask = ({setState}) => {
 
-  const {infoTask} = useContext(UserContext);
-  const [formInfo, setFormInfo] = useState(infoTask);
+    const {infoTask} = useContext(UserContext);
+    const [formInfo, setFormInfo] = useState({
+      title: infoTask.title,
+      description: infoTask.description,
+      status: infoTask.status,
+      priority: infoTask.priority,
+      date: infoTask.date,
+    });
 
-  const ChangeValue = (event)=>{
-    const {name, infoTask, checked} = event.target;
-    setFormInfo({...formInfo, [name]:infoTask, priority:checked})
-  }
-  
-
-  const onFormSubmit = async(event) =>{
-    event.preventDefault();
-    const docTask = doc(FirebaseDB, "usuario", infoTask.id);
-    const docSnap = await getDoc(docTask);
-    
-    if (docSnap.exists()) {
-      const NewValuesId = {
-        title: formInfo.title,
-        description: formInfo.description,
-        status: formInfo.status,
-        priority: formInfo.priority,
-        date: formInfo.date
-      }
-      await updateDoc(docTask,NewValuesId);
-    } else {
-      console.log("La tarea no existe");
+    const ChangeValue = (event)=>{
+      const {name, value, checked} = event.target; 
+      setFormInfo({...infoTask, [name]:value, priority:checked})
     }
-    setState(false)
-  }
-  
-  const close = () =>{
-    setState(false)
-  }
+    
+    const onFormSubmit = async(event) =>{
+      event.preventDefault();
+      const docTask = doc(FirebaseDB, "usuario", infoTask.id);
+      const docSnap = await getDoc(docTask);
+      
+      if (docSnap.exists()) {
+        const NewValuesId = {
+          title: formInfo.title,
+          description: formInfo.description,
+          status: formInfo.status,
+          priority: formInfo.priority,
+          date: formInfo.date,
+        }
+        await updateDoc(docTask,NewValuesId);
+      } else {
+        console.log("La tarea no existe");
+      }
+      setState(false)
+    }
+    
+
+    const close = () =>{
+      setState(false)
+    }
   
     return (
-          <div className='container-modal'>
-            <div className='modal-style'>
+          <div className='container-modal' onClick={close}>
+            <div className='modal-style' onClick={e=>{e.stopPropagation()}}>
               <div className='header-modal'>
                   <h1>EDITAR TAREA</h1>
                 <span onClick={close}><Close className="menu"/></span>

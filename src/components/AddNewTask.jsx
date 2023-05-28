@@ -46,8 +46,8 @@ export const AddNewTask = ({statusModal,changeStatusModal}) => {
       {
         statusModal &&
       
-        <div className='container-modal'>
-          <div className='modal-style'>
+        <div className='container-modal' onClick={()=>changeStatusModal(false)}> {/* clic para cerrar*/}
+          <div className='modal-style' onClick={e=>{e.stopPropagation()}}> 
             <div className='header-modal'>
               <h1>NUEVA TAREA</h1>
               <span onClick={()=>changeStatusModal(false)}><Close className="menu"/></span>

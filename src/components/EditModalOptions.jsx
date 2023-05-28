@@ -9,7 +9,7 @@ export const EditModalOptions = ({state, close, info}) => {
   const [value, setValue] = useState()
   const {id} = info;
 
-  const stateTask = [["new","Nueva Tarea"],["in process","En Proceso"],["done","Finalizado"]]
+  const stateTask = [["new","Nueva Tarea"],["developing","En Proceso"],["done","Finalizado"]]
   const {openEditModal, setOpenEditModal} = useContext(UserContext);
 
     const getValues = async() =>{
@@ -26,7 +26,7 @@ export const EditModalOptions = ({state, close, info}) => {
       }
     }
   
-  const prueba = async() =>{
+  const openEdit = async() =>{
     await getValues();
     setOpenEditModal(true)
     close()
@@ -78,7 +78,7 @@ export const EditModalOptions = ({state, close, info}) => {
         { 
           state &&
             <div className='modal-content'>
-            <p onClick={()=>prueba()}>Ver / Editar</p>
+            <p onClick={()=>openEdit()}>Ver / Editar</p>
             <ul className='change-state-hover'>
               <p className='text-hidden'>Cambiar Estado</p>
               {
